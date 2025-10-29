@@ -1,5 +1,44 @@
 <?php
-// ====== REGISTER CUSTOM POST TYPE: EVENT ======
+// ===================================================
+// 🔹 UBAH NAMA FILE GAMBAR MENJADI FORMAT DATETIME
+// ===================================================
+add_filter('wp_handle_upload_prefilter', 'rename_image_file_to_datetime');
+function rename_image_file_to_datetime($file) {
+    $image_types = array('image/jpeg', 'image/png', 'image/gif');
+    if (in_array($file['type'], $image_types)) {
+        $file_ext = pathinfo($file['name'], PATHINFO_EXTENSION);
+        $datetime = date('Ymd_His'); // Format: YYYYMMDD_HHmmss
+        $file['name'] = $datetime . '.' . $file_ext;
+    }
+    return $file;
+}
+
+// ===================================================
+// 🔹 BUAT FOLDER UPLOAD: /event/YYYY/MM/DD
+// ===================================================
+add_filter('upload_dir', 'custom_upload_folder_event_by_day');
+function custom_upload_folder_event_by_day($upload) {
+    // Jalankan hanya ketika sedang upload dari post type 'event'
+    if (isset($_REQUEST['post_id'])) {
+        $post_type = get_post_type($_REQUEST['post_id']);
+        if ($post_type === 'event') {
+            $time = current_time('mysql');
+            $y = date('Y', strtotime($time));
+            $m = date('m', strtotime($time));
+            $d = date('d', strtotime($time));
+
+            // Set folder upload: /event/YYYY/MM/DD
+            $upload['subdir'] = "/event/$y/$m/$d";
+            $upload['path'] = $upload['basedir'] . $upload['subdir'];
+            $upload['url']  = $upload['baseurl'] . $upload['subdir'];
+        }
+    }
+    return $upload;
+}
+
+// ===================================================
+// 🔹 REGISTER CUSTOM POST TYPE: EVENT
+// ===================================================
 function register_post_type_event() {
     $labels = array(
         'name'               => 'Event',
@@ -29,7 +68,7 @@ function register_post_type_event() {
 
     register_post_type('event', $args);
 
-    // ====== REGISTER CUSTOM TAXONOMY: KATEGORI EVENT ======
+    // Register taxonomy kategori event
     $taxonomy_labels = array(
         'name'              => 'Kategori Event',
         'singular_name'     => 'Kategori Event',
@@ -56,8 +95,9 @@ function register_post_type_event() {
 }
 add_action('init', 'register_post_type_event');
 
-
-// ====== CUSTOM FIELD: TANGGAL PELAKSANAAN ======
+// ===================================================
+// 🔹 FIELD: TANGGAL PELAKSANAAN
+// ===================================================
 function event_add_tanggal_meta_box() {
     add_meta_box(
         'event_tanggal_box',
@@ -96,8 +136,9 @@ function event_save_tanggal_meta_box($post_id) {
 }
 add_action('save_post_event', 'event_save_tanggal_meta_box');
 
-
-// ====== FLUSH PERMALINK SAAT TEMA DI AKTIFKAN ======
+// ===================================================
+// 🔹 FLUSH PERMALINK SAAT THEME AKTIF
+// ===================================================
 add_action('after_switch_theme', function() {
     register_post_type_event();
     flush_rewrite_rules();

@@ -1,7 +1,161 @@
   <!-- Start header Area -->
   <?php get_header(); ?>
 
-  <section id="hero-area" class="header-area header-eight">
+  <section id="hero-area" class="header-area header-eight position-relative overflow-hidden">
+      <!-- Background Shape (Wave lembut dengan warna baru) -->
+      <div class="hero-bg-shape">
+          <svg viewBox="0 0 1440 320" preserveAspectRatio="none">
+              <defs>
+                  <linearGradient id="gradHero" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stop-color="#0066dd" />
+                      <stop offset="50%" stop-color="#0055cc" />
+                      <stop offset="100%" stop-color="#004aad" />
+                  </linearGradient>
+              </defs>
+              <path fill="url(#gradHero)" fill-opacity="1"
+                  d="M0,160L80,154.7C160,149,320,139,480,154.7C640,171,800,213,960,197.3C1120,181,1280,107,1360,69.3L1440,32L1440,320L1360,320C1280,320,1120,320,960,320C800,320,640,320,480,320C320,320,160,320,80,320L0,320Z">
+              </path>
+          </svg>
+
+          <!-- Tambahan elemen dekoratif di atas -->
+          <div class="hero-top-shape"></div>
+          <div class="hero-top-shape small left"></div>
+      </div>
+
+      <div class="container position-relative z-10">
+          <div class="row align-items-center">
+              <!-- Left Text -->
+              <div class="col-lg-6 col-md-12 col-12">
+                  <div class="header-content text-white">
+                      <h1 class="fw-bold mb-3">Obor Langit Group.</h1>
+                      <p class="mb-4">
+                          Membangun prestasi akademik melalui kompetisi yang terstruktur dan inspiratif.
+                          Dengan pengalaman menyelenggarakan olimpiade nasional, kami menciptakan wadah terbaik
+                          bagi siswa SD/MI dan SMP/MTs untuk mengembangkan potensi akademik mereka secara optimal dan berkelanjutan.
+                      </p>
+                      <div class="button">
+                          <a href="<?php echo site_url('/tentang-kami'); ?>" class="btn btn-light btn-header me-3 px-4 py-2">
+                              Selengkapnya
+                          </a>
+                          <a href="https://www.youtube.com/watch?v=r44RKWyfcFw"
+                              class="glightbox video-button d-inline-flex align-items-center text-white text-decoration-none">
+                              <span class="btn icon-btn rounded-circle me-2"
+                                  style="background: rgba(255, 255, 255, 1); width: 45px; height: 45px; display:flex; align-items:center; justify-content:center;">
+                                  <i class="lni lni-play fs-5"></i>
+                              </span>
+                              <span class="text fw-semibold">Watch Intro</span>
+                          </a>
+                      </div>
+                  </div>
+              </div>
+
+              <!-- Right Image Slider -->
+              <div class="col-lg-6 col-md-12 col-12">
+                  <div class="header-image slider">
+                      <div>
+                          <img src="https://images.unsplash.com/photo-1551836022-4c4c79ecde51?auto=format&fit=crop&w=1000&q=80"
+                              alt="Event Conference" class="img-fluid rounded shadow" />
+                      </div>
+                      <div>
+                          <img src="https://images.unsplash.com/photo-1503424886307-b090341d25d1?auto=format&fit=crop&w=1000&q=80"
+                              alt="Team Collaboration" class="img-fluid rounded shadow" />
+                      </div>
+                      <div>
+                          <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1000&q=80"
+                              alt="Corporate Event" class="img-fluid rounded shadow" />
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+      <style>
+          #hero-area {
+              padding-top: 120px;
+              padding-bottom: 100px;
+              color: #fff;
+          }
+
+          /* Background wave */
+          .hero-bg-shape {
+              position: absolute;
+              top: 0;
+              left: 0;
+              width: 100%;
+              height: 100%;
+              z-index: 0;
+              overflow: hidden;
+          }
+
+          .hero-bg-shape svg {
+              position: absolute;
+              bottom: 0;
+              left: 0;
+              width: 100%;
+              height: 100%;
+          }
+
+          /* Tambahan shape lembut di atas */
+          .hero-top-shape {
+              position: absolute;
+              top: -80px;
+              right: -100px;
+              width: 300px;
+              height: 300px;
+              background: radial-gradient(circle at center, #00ddaa33 0%, transparent 70%);
+              border-radius: 50%;
+              z-index: 1;
+          }
+
+          .hero-top-shape.small.left {
+              top: -60px;
+              left: -80px;
+              width: 180px;
+              height: 180px;
+              background: radial-gradient(circle at center, #0066dd33 0%, transparent 70%);
+          }
+
+          /* Hero text */
+          .header-content h1 {
+              font-size: 2.8rem;
+              line-height: 1.2;
+          }
+
+          .header-content p {
+              font-size: 1.1rem;
+              opacity: 0.9;
+          }
+
+          .btn.icon-btn {
+              border: none;
+              transition: background 0.3s ease;
+          }
+
+          .btn.icon-btn:hover {
+              background: rgba(255, 255, 255, 0.3) !important;
+          }
+
+          .btn-header {
+              color: #004aad;
+          }
+
+          @media (max-width: 992px) {
+              .header-content {
+                  text-align: center;
+                  margin-bottom: 40px;
+              }
+
+              .hero-top-shape,
+              .hero-top-shape.small.left {
+                  display: none;
+              }
+          }
+      </style>
+  </section>
+
+
+
+  <!-- <section id="hero-area" class="header-area header-eight">
       <div class="container">
           <div class="row align-items-center">
               <div class="col-lg-6 col-md-12 col-12">
@@ -24,7 +178,6 @@
                       </div>
                   </div>
               </div>
-              <!-- Tambahkan ini di dalam section hero -->
               <div class="col-lg-6 col-md-12 col-12">
                   <div class="header-image slider">
                       <div>
@@ -44,7 +197,7 @@
 
           </div>
       </div>
-  </section>
+  </section> -->
   <!-- End header Area -->
 
   <!--====== ABOUT FIVE PART START ======-->
@@ -250,7 +403,7 @@
                         $kategori = $terms && !is_wp_error($terms) ? $terms[0]->name : '';
                 ?>
                       <div class="col-lg-4 col-md-6 col-12 mb-4">
-                          <div class="single-news h-100 d-flex flex-column shadow-md rounded overflow-hidden">
+                          <div class="single-news h-100 d-flex flex-column shadow-lg rounded overflow-hidden">
                               <div class="image d-flex flex-row justify-content-center position-relative p-1">
                                   <a href="<?php the_permalink(); ?>">
                                       <?php if (has_post_thumbnail()): ?>
@@ -312,77 +465,48 @@
 
       <div class="container">
           <div class="row g-4">
-              <!-- Item 1 -->
-              <div class="col-lg-4 col-md-6 col-12">
-                  <div class="gallery-card">
-                      <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600" alt="Mountain Vista">
-                      <div class="gallery-info">
-                          <div class="gallery-title">Mountain Vista</div>
-                          <div class="gallery-desc">Pemandangan gunung yang menakjubkan dengan langit biru cerah</div>
-                          <div class="gallery-date">15 Oktober 2025</div>
-                      </div>
-                  </div>
-              </div>
+              <?php
+                // Query untuk menampilkan hanya 3 post terakhir dari galeri
+                $gallery_query = new WP_Query([
+                    'post_type'      => 'gallery', // ganti dengan slug CPT galeri kamu
+                    'posts_per_page' => 3,
+                    'post_status'    => 'publish',
+                ]);
 
-              <!-- Item 2 -->
-              <div class="col-lg-4 col-md-6 col-12">
-                  <div class="gallery-card">
-                      <img src="https://images.unsplash.com/photo-1511884642898-4c92249e20b6?w=600" alt="Ocean Waves">
-                      <div class="gallery-info">
-                          <div class="gallery-title">Ocean Waves</div>
-                          <div class="gallery-desc">Ombak laut yang tenang di sore hari</div>
-                          <div class="gallery-date">12 Oktober 2025</div>
-                      </div>
-                  </div>
-              </div>
+                if ($gallery_query->have_posts()) :
+                    while ($gallery_query->have_posts()) :
+                        $gallery_query->the_post();
+                ?>
+                      <div class="col-lg-4 col-md-6 col-12">
+                          <a href="<?php the_permalink(); ?>" class="text-decoration-none w-full">
+                              <div class="gallery-card">
+                                  <?php if (has_post_thumbnail()) : ?>
+                                      <?php the_post_thumbnail('medium_large', ['class' => 'img-fluid', 'alt' => get_the_title()]); ?>
+                                  <?php else : ?>
+                                      <img src="https://via.placeholder.com/600x400?text=No+Image" alt="<?php the_title(); ?>">
+                                  <?php endif; ?>
 
-              <!-- Item 3 -->
-              <div class="col-lg-4 col-md-6 col-12">
-                  <div class="gallery-card">
-                      <img src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=600" alt="Forest Path">
-                      <div class="gallery-info">
-                          <div class="gallery-title">Forest Path</div>
-                          <div class="gallery-desc">Jalan setapak di tengah hutan hijau yang rimbun</div>
-                          <div class="gallery-date">8 Oktober 2025</div>
+                                  <div class="gallery-info">
+                                      <div class="gallery-title"><?php the_title(); ?></div>
+                                      <div class="gallery-desc">
+                                          <?php echo wp_trim_words(get_the_excerpt(), 20); ?>
+                                      </div>
+                                      <div class="gallery-date">
+                                          <?php echo get_the_date('j F Y'); ?>
+                                      </div>
+                                  </div>
+                              </div>
+                          </a>
                       </div>
+                  <?php
+                    endwhile;
+                    wp_reset_postdata();
+                else :
+                    ?>
+                  <div class="col-12 text-center">
+                      <p>Belum ada galeri yang tersedia.</p>
                   </div>
-              </div>
-
-              <!-- Item 4 -->
-              <div class="col-lg-4 col-md-6 col-12">
-                  <div class="gallery-card">
-                      <img src="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=600" alt="Sunset Sky">
-                      <div class="gallery-info">
-                          <div class="gallery-title">Sunset Sky</div>
-                          <div class="gallery-desc">Matahari terbenam dengan warna jingga yang indah</div>
-                          <div class="gallery-date">5 Oktober 2025</div>
-                      </div>
-                  </div>
-              </div>
-
-              <!-- Item 5 -->
-              <div class="col-lg-4 col-md-6 col-12">
-                  <div class="gallery-card">
-                      <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=600" alt="Desert Dunes">
-                      <div class="gallery-info">
-                          <div class="gallery-title">Desert Dunes</div>
-                          <div class="gallery-desc">Bukit pasir gurun dengan tekstur yang memukau</div>
-                          <div class="gallery-date">2 Oktober 2025</div>
-                      </div>
-                  </div>
-              </div>
-
-              <!-- Item 6 -->
-              <div class="col-lg-4 col-md-6 col-12">
-                  <div class="gallery-card">
-                      <img src="https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=600" alt="Lake Reflection">
-                      <div class="gallery-info">
-                          <div class="gallery-title">Lake Reflection</div>
-                          <div class="gallery-desc">Pantulan sempurna danau yang jernih seperti cermin</div>
-                          <div class="gallery-date">28 September 2025</div>
-                      </div>
-                  </div>
-              </div>
+              <?php endif; ?>
           </div>
       </div>
 
@@ -399,6 +523,7 @@
               overflow: hidden;
               box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
               transition: transform 0.3s ease, box-shadow 0.3s ease;
+              height: 100%;
           }
 
           .gallery-card:hover {
@@ -435,8 +560,14 @@
               color: #999;
               font-style: italic;
           }
+
+          .w-full {
+              width: 100%;
+              display: block;
+          }
       </style>
   </section>
+
 
 
 
