@@ -42,3 +42,53 @@ function event_theme_setup()
   ));
 }
 add_action('after_setup_theme', 'event_theme_setup');
+
+
+add_filter('wp_handle_upload_prefilter', function($file) {
+    $ext = pathinfo($file['name'], PATHINFO_EXTENSION);
+    $datetime = date('Ymd_His'); // Format: 20251030_204500
+    $file['name'] = $datetime . '.' . $ext;
+    return $file;
+});
+
+// ===================================================
+// 🔹 GANTI FOLDER UPLOAD BERDASARKAN POST TYPE
+// ===================================================
+add_filter('upload_dir', function($upload) {
+    $post_type = null;
+
+    if (isset($_REQUEST['post_id'])) {
+        $post_type = get_post_type($_REQUEST['post_id']);
+    }
+
+    $time = current_time('mysql');
+    $y = date('Y', strtotime($time));
+    $m = date('m', strtotime($time));
+    $d = date('d', strtotime($time));
+
+    // === EVENT ===
+    if ($post_type === 'event') {
+        $upload['subdir'] = "/event/$y/$m/$d";
+    }
+
+    // === GALLERY ===
+    elseif ($post_type === 'gallery') {
+        $upload['subdir'] = "/gallery/$y/$m/$d";
+    }
+
+    // === PENILAIAN (PDF SAJA) ===
+    elseif ($post_type === 'penilaian') {
+        $upload['subdir'] = "/penilaian/pdf/$y/$m/$d";
+    }
+
+    // === LAINNYA (default WP) ===
+    else {
+        return $upload;
+    }
+
+    // Update path dan URL upload
+    $upload['path'] = $upload['basedir'] . $upload['subdir'];
+    $upload['url']  = $upload['baseurl'] . $upload['subdir'];
+
+    return $upload;
+});

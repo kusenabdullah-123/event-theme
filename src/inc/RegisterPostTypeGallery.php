@@ -1,41 +1,4 @@
 <?php
-// ===================================================
-// 🔹 RENAME FILE GAMBAR KE FORMAT DATETIME
-// ===================================================
-add_filter('wp_handle_upload_prefilter', 'rename_gallery_image_to_datetime');
-function rename_gallery_image_to_datetime($file)
-{
-    $image_types = array('image/jpeg', 'image/png', 'image/gif', 'image/webp');
-    if (in_array($file['type'], $image_types)) {
-        $file_ext = pathinfo($file['name'], PATHINFO_EXTENSION);
-        $datetime = date('Ymd_His'); // contoh: 20251029_203015
-        $file['name'] = $datetime . '.' . $file_ext;
-    }
-    return $file;
-}
-
-// ===================================================
-// 🔹 GANTI FOLDER UPLOAD KHUSUS UNTUK POST TYPE GALLERY
-// ===================================================
-add_filter('upload_dir', 'custom_upload_folder_gallery_by_day');
-function custom_upload_folder_gallery_by_day($upload)
-{
-    if (isset($_REQUEST['post_id'])) {
-        $post_type = get_post_type($_REQUEST['post_id']);
-        if ($post_type === 'gallery') {
-            $time = current_time('mysql');
-            $y = date('Y', strtotime($time));
-            $m = date('m', strtotime($time));
-            $d = date('d', strtotime($time));
-
-            // Folder: /gallery/YYYY/MM/DD
-            $upload['subdir'] = "/gallery/$y/$m/$d";
-            $upload['path'] = $upload['basedir'] . $upload['subdir'];
-            $upload['url']  = $upload['baseurl'] . $upload['subdir'];
-        }
-    }
-    return $upload;
-}
 
 // ===================================================
 // 🔹 REGISTER CUSTOM POST TYPE: GALLERY

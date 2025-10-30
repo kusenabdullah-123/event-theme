@@ -33,41 +33,6 @@ function RegisterPostTypePenilaian()
 }
 add_action('init', 'RegisterPostTypePenilaian');
 
-
-// =======================
-// 🔹 FILTER UPLOAD KHUSUS UNTUK PENILAIAN
-// =======================
-add_filter('wp_handle_upload_prefilter', 'rename_penilaian_pdf_to_datetime');
-function rename_penilaian_pdf_to_datetime($file)
-{
-    // Hanya untuk file PDF
-    if ($file['type'] === 'application/pdf') {
-        $ext = pathinfo($file['name'], PATHINFO_EXTENSION);
-        $datetime = date('Ymd_His'); // format: 20251029_204530
-        $file['name'] = $datetime . '.' . $ext;
-    }
-    return $file;
-}
-
-add_filter('upload_dir', 'custom_upload_folder_penilaian');
-function custom_upload_folder_penilaian($upload)
-{
-    // Folder upload: /uploads/penilaian/YYYY/MM/DD
-    $time = current_time('mysql');
-    $y = date('Y', strtotime($time));
-    $m = date('m', strtotime($time));
-    $d = date('d', strtotime($time));
-
-    $subdir = "/penilaian/$y/$m/$d";
-
-    $upload['subdir'] = $subdir;
-    $upload['path']   = $upload['basedir'] . $subdir;
-    $upload['url']    = $upload['baseurl'] . $subdir;
-
-    return $upload;
-}
-
-
 // =======================
 // 🔹 Tambah Metabox Upload Multi PDF + Tanggal
 // =======================

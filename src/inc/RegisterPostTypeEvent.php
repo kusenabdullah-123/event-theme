@@ -1,40 +1,4 @@
 <?php
-// ===================================================
-// 🔹 UBAH NAMA FILE GAMBAR MENJADI FORMAT DATETIME
-// ===================================================
-add_filter('wp_handle_upload_prefilter', 'rename_image_file_to_datetime');
-function rename_image_file_to_datetime($file) {
-    $image_types = array('image/jpeg', 'image/png', 'image/gif');
-    if (in_array($file['type'], $image_types)) {
-        $file_ext = pathinfo($file['name'], PATHINFO_EXTENSION);
-        $datetime = date('Ymd_His'); // Format: YYYYMMDD_HHmmss
-        $file['name'] = $datetime . '.' . $file_ext;
-    }
-    return $file;
-}
-
-// ===================================================
-// 🔹 BUAT FOLDER UPLOAD: /event/YYYY/MM/DD
-// ===================================================
-add_filter('upload_dir', 'custom_upload_folder_event_by_day');
-function custom_upload_folder_event_by_day($upload) {
-    // Jalankan hanya ketika sedang upload dari post type 'event'
-    if (isset($_REQUEST['post_id'])) {
-        $post_type = get_post_type($_REQUEST['post_id']);
-        if ($post_type === 'event') {
-            $time = current_time('mysql');
-            $y = date('Y', strtotime($time));
-            $m = date('m', strtotime($time));
-            $d = date('d', strtotime($time));
-
-            // Set folder upload: /event/YYYY/MM/DD
-            $upload['subdir'] = "/event/$y/$m/$d";
-            $upload['path'] = $upload['basedir'] . $upload['subdir'];
-            $upload['url']  = $upload['baseurl'] . $upload['subdir'];
-        }
-    }
-    return $upload;
-}
 
 // ===================================================
 // 🔹 REGISTER CUSTOM POST TYPE: EVENT
