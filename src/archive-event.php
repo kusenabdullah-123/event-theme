@@ -47,10 +47,14 @@
                             </div>
 
                             <div class="content-body p-3 flex-grow-1 d-flex flex-column">
-                                <?php if ($kategori): ?>
-                                    <span class="badge bg-primary text-light mb-2 align-self-start">
-                                        <?php echo esc_html($kategori); ?>
-                                    </span>
+                                <?php if (!empty($terms) && !is_wp_error($terms)): ?>
+                                    <div class="mb-2">
+                                        <?php foreach ($terms as $term): ?>
+                                            <span class="badge bg-primary text-light me-1">
+                                                <?php echo esc_html($term->name); ?>
+                                            </span>
+                                        <?php endforeach; ?>
+                                    </div>
                                 <?php endif; ?>
 
                                 <h4 class="title mb-2">

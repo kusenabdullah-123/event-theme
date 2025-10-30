@@ -117,7 +117,7 @@
 
           /* Hero text */
           .header-content h1 {
-              font-size: 2.8rem;
+              font-size: 3.8rem;
               line-height: 1.2;
           }
 
