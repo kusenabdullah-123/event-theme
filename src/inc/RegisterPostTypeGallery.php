@@ -3,7 +3,8 @@
 // 🔹 RENAME FILE GAMBAR KE FORMAT DATETIME
 // ===================================================
 add_filter('wp_handle_upload_prefilter', 'rename_gallery_image_to_datetime');
-function rename_gallery_image_to_datetime($file) {
+function rename_gallery_image_to_datetime($file)
+{
     $image_types = array('image/jpeg', 'image/png', 'image/gif', 'image/webp');
     if (in_array($file['type'], $image_types)) {
         $file_ext = pathinfo($file['name'], PATHINFO_EXTENSION);
@@ -17,7 +18,8 @@ function rename_gallery_image_to_datetime($file) {
 // 🔹 GANTI FOLDER UPLOAD KHUSUS UNTUK POST TYPE GALLERY
 // ===================================================
 add_filter('upload_dir', 'custom_upload_folder_gallery_by_day');
-function custom_upload_folder_gallery_by_day($upload) {
+function custom_upload_folder_gallery_by_day($upload)
+{
     if (isset($_REQUEST['post_id'])) {
         $post_type = get_post_type($_REQUEST['post_id']);
         if ($post_type === 'gallery') {
@@ -73,7 +75,8 @@ add_action('init', 'register_post_type_gallery');
 // ===================================================
 // 🔹 META BOX UNTUK UPLOAD BANYAK GAMBAR
 // ===================================================
-function gallery_add_images_meta_box() {
+function gallery_add_images_meta_box()
+{
     add_meta_box(
         'gallery_images_box',
         'Daftar Gambar',
@@ -85,10 +88,11 @@ function gallery_add_images_meta_box() {
 }
 add_action('add_meta_boxes', 'gallery_add_images_meta_box');
 
-function gallery_images_meta_box_callback($post) {
+function gallery_images_meta_box_callback($post)
+{
     $images = get_post_meta($post->ID, '_gallery_images', true);
     wp_nonce_field('save_gallery_images', 'gallery_images_nonce');
-    ?>
+?>
     <div id="gallery-images-wrapper">
         <p><button type="button" class="button add-gallery-image">+ Tambah Gambar</button></p>
         <ul id="gallery-images-list">
@@ -108,37 +112,63 @@ function gallery_images_meta_box_callback($post) {
 
     <script>
         jQuery(document).ready(function($) {
-            let frame;
-            $('.add-gallery-image').on('click', function(e) {
+            let gallery_frame;
+
+            // Tombol tambah gambar
+            $(document).on('click', '.add-gallery-image', function(e) {
                 e.preventDefault();
-                if (frame) frame.open();
-                frame = wp.media({
+
+                // Jika frame sudah dibuat sebelumnya, buka ulang
+                if (gallery_frame) {
+                    gallery_frame.open();
+                    return;
+                }
+
+                // Buat instance baru
+                gallery_frame = wp.media({
                     title: 'Pilih atau Upload Gambar',
-                    button: { text: 'Gunakan Gambar Ini' },
-                    multiple: true
+                    button: {
+                        text: 'Gunakan Gambar Ini'
+                    },
+                    multiple: true // bisa pilih banyak
                 });
-                frame.on('select', function() {
-                    let attachments = frame.state().get('selection').toJSON();
+
+                // Saat gambar dipilih
+                gallery_frame.on('select', function() {
+                    const attachments = gallery_frame.state().get('selection').toJSON();
                     attachments.forEach(function(attachment) {
+                        const imageURL = attachment.sizes?.thumbnail?.url || attachment.url;
                         $('#gallery-images-list').append(
                             '<li style="margin-bottom:10px;">' +
-                            '<img src="' + attachment.url + '" style="max-width:100px;vertical-align:middle;margin-right:10px;">' +
+                            '<img src="' + imageURL + '" style="max-width:100px;vertical-align:middle;margin-right:10px;">' +
                             '<input type="hidden" name="gallery_images[]" value="' + attachment.url + '">' +
-                            '<button type="button" class="button remove-gallery-image">Hapus</button></li>'
+                            '<button type="button" class="button remove-gallery-image">Hapus</button>' +
+                            '</li>'
                         );
                     });
+
+                    // Tutup frame setelah pilih
+                    gallery_frame.close();
                 });
-                frame.open();
+
+                // Buka media uploader
+                gallery_frame.open();
             });
+
+            // Tombol hapus gambar
             $(document).on('click', '.remove-gallery-image', function() {
-                $(this).closest('li').remove();
+                $(this).closest('li').fadeOut(200, function() {
+                    $(this).remove();
+                });
             });
         });
     </script>
-    <?php
+
+<?php
 }
 
-function gallery_save_images_meta_box($post_id) {
+function gallery_save_images_meta_box($post_id)
+{
     if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
     if (!isset($_POST['gallery_images_nonce']) || !wp_verify_nonce($_POST['gallery_images_nonce'], 'save_gallery_images')) return;
 
@@ -153,7 +183,7 @@ add_action('save_post_gallery', 'gallery_save_images_meta_box');
 // ===================================================
 // 🔹 FLUSH PERMALINK SAAT THEME DI AKTIFKAN
 // ===================================================
-add_action('after_switch_theme', function() {
+add_action('after_switch_theme', function () {
     register_post_type_gallery();
     flush_rewrite_rules();
 });

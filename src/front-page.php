@@ -296,45 +296,33 @@
               <div class="col-lg-6 col-12">
                   <div class="about-five-content">
                       <h6 class="small-title text-lg">VISI & MISI</h6>
-                      <h2 class="main-title fw-bold">Our team comes with the experience and knowledge</h2>
+                      <h2 class="main-title fw-bold">Komitmen dan Kredibilitas di Dunia Akademik</h2>
                       <div class="about-five-tab">
                           <nav>
                               <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                                  <button class="nav-link active" id="nav-who-tab" data-bs-toggle="tab" data-bs-target="#nav-who"
-                                      type="button" role="tab" aria-controls="nav-who" aria-selected="true">Who We Are</button>
-                                  <button class="nav-link" id="nav-vision-tab" data-bs-toggle="tab" data-bs-target="#nav-vision"
-                                      type="button" role="tab" aria-controls="nav-vision" aria-selected="false">our Vision</button>
-                                  <button class="nav-link" id="nav-history-tab" data-bs-toggle="tab" data-bs-target="#nav-history"
-                                      type="button" role="tab" aria-controls="nav-history" aria-selected="false">our History</button>
+                                  <button class="nav-link nav-tabs active" id="nav-who-tab" data-bs-toggle="tab" data-bs-target="#nav-who"
+                                      type="button" role="tab" aria-controls="nav-who" aria-selected="true">SEJARAH</button>
+                                  <button class="nav-link nav-tabs " id="nav-vision-tab" data-bs-toggle="tab" data-bs-target="#nav-vision"
+                                      type="button" role="tab" aria-controls="nav-vision" aria-selected="false">VISI</button>
+                                  <button class="nav-link nav-tabs" id="nav-history-tab" data-bs-toggle="tab" data-bs-target="#nav-history"
+                                      type="button" role="tab" aria-controls="nav-history" aria-selected="false">MISI</button>
                               </div>
                           </nav>
                           <div class="tab-content" id="nav-tabContent">
                               <div class="tab-pane fade show active" id="nav-who" role="tabpanel" aria-labelledby="nav-who-tab">
-                                  <p>It is a long established fact that a reader will be distracted by the readable content of a page
-                                      when
-                                      looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal
-                                      distribution of letters, look like readable English.</p>
-                                  <p>There are many variations of passages of Lorem Ipsum available, but the majority have in some
-                                      form,
-                                      by injected humour.</p>
+                                  <p>Obor Langit adalah Event Organizer yang bergerak di bidang akademik, khususnya penyelenggaraan Olimpiade Akademik Nasional. Kami hadir sebagai wadah pengembangan potensi pelajar Indonesia melalui ajang kompetisi yang edukatif, inspiratif, dan membangun semangat berprestasi di bidang ilmu pengetahuan.</p>
                               </div>
                               <div class="tab-pane fade" id="nav-vision" role="tabpanel" aria-labelledby="nav-vision-tab">
-                                  <p>It is a long established fact that a reader will be distracted by the readable content of a page
-                                      when
-                                      looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal
-                                      distribution of letters, look like readable English.</p>
-                                  <p>There are many variations of passages of Lorem Ipsum available, but the majority have in some
-                                      form,
-                                      by injected humour.</p>
+                                  <p>Menjadi pelopor penyelenggara Olimpiade Akademik nasional yang unggul dan terpercaya dalam membangun ekosistem prestasi pelajar Indonesia yang berintegritas, visioner, dan siap bersaing di tingkat global.</p>
                               </div>
                               <div class="tab-pane fade" id="nav-history" role="tabpanel" aria-labelledby="nav-history-tab">
-                                  <p>It is a long established fact that a reader will be distracted by the readable content of a page
-                                      when
-                                      looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal
-                                      distribution of letters, look like readable English.</p>
-                                  <p>There are many variations of passages of Lorem Ipsum available, but the majority have in some
-                                      form,
-                                      by injected humour.</p>
+                                  <p>
+                                      Menyelenggarakan kompetisi akademik yang profesional, transparan, dan berorientasi pada pengembangan potensi pelajar.
+                                  </p>
+
+                                  <p>Menguatkan kepercayaan publik melalui kegiatan yang terkurasi oleh Puspresnas dan diakui secara resmi oleh Dinas Pendidikan.</p>
+
+                                  <p>Mendorong lahirnya generasi berkarakter unggul, inovatif, dan bersemangat untuk berprestasi di tingkat nasional maupun internasional.</p>
                               </div>
                           </div>
                       </div>
@@ -364,78 +352,81 @@
 
 
 
-  <div id="event" class="latest-news-area section">
-      <div class="section-title-five">
-          <div class="container">
-              <div class="row">
-                  <div class="col-12">
-                      <div class="content">
-                          <h6>Event</h6>
-                          <h2 class="fw-bold">Latest Event & Upcoming</h2>
-                          <p>Ayo lihat event terbaru dan event yang masih buka pendaftaran.</p>
-                      </div>
-                  </div>
-              </div>
-          </div>
-      </div>
+<div id="event" class="latest-news-area section">
+    <div class="section-title-five">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="content text-center">
+                        <h6>Event</h6>
+                        <h2 class="fw-bold">Latest Event & Upcoming</h2>
+                        <p>Ayo lihat event terbaru dan event yang masih buka pendaftaran.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-      <div class="container">
-          <div class="row">
-              <?php
-                $args = array(
-                    'post_type'      => 'event',
-                    'posts_per_page' => 5,
-                );
-                $query = new WP_Query($args);
+    <div class="container">
+        <div class="row">
+            <?php
+            $args = array(
+                'post_type'      => 'event',
+                'posts_per_page' => 5,
+            );
+            $query = new WP_Query($args);
 
-                if ($query->have_posts()):
-                    while ($query->have_posts()): $query->the_post();
+            if ($query->have_posts()):
+                while ($query->have_posts()): $query->the_post();
 
-                        // Ambil kategori dari taxonomy 'event_kategori'
-                        $terms = get_the_terms(get_the_ID(), 'event_kategori');
-                        $kategori = $terms && !is_wp_error($terms) ? $terms[0]->name : '';
-                ?>
-                      <div class="col-lg-4 col-md-6 col-12 mb-4">
-                          <div class="single-news h-100 d-flex flex-column shadow-lg rounded overflow-hidden">
-                              <div class="image d-flex flex-row justify-content-center position-relative p-1">
-                                  <a href="<?php the_permalink(); ?>">
-                                      <?php if (has_post_thumbnail()): ?>
-                                          <?php the_post_thumbnail('medium', ['class' => 'thumb w-100']); ?>
-                                      <?php else: ?>
-                                          <img src="<?php echo get_template_directory_uri(); ?>/assets/images/no-image.jpg" alt="<?php the_title(); ?>" class="thumb w-100">
-                                      <?php endif; ?>
-                                  </a>
-                              </div>
+                    // Ambil semua kategori dari taxonomy 'event_kategori'
+                    $terms = get_the_terms(get_the_ID(), 'event_kategori');
+            ?>
+                    <div class="col-lg-4 col-md-6 col-12 mb-4">
+                        <div class="single-news h-100 d-flex flex-column shadow-lg rounded overflow-hidden">
+                            <div class="image d-flex justify-content-center position-relative p-1">
+                                <a href="<?php the_permalink(); ?>">
+                                    <?php if (has_post_thumbnail()): ?>
+                                        <?php the_post_thumbnail('medium', ['class' => 'thumb w-100']); ?>
+                                    <?php else: ?>
+                                        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/no-image.jpg"
+                                             alt="<?php the_title(); ?>" class="thumb w-100">
+                                    <?php endif; ?>
+                                </a>
+                            </div>
 
-                              <div class="content-body p-3 flex-grow-1 d-flex flex-column">
-                                  <?php if ($kategori): ?>
-                                      <span class="badge bg-primary text-light mb-2 align-self-start">
-                                          <?php echo esc_html($kategori); ?>
-                                      </span>
-                                  <?php endif; ?>
+                            <div class="content-body p-3 flex-grow-1 d-flex flex-column">
+                                <?php if (!empty($terms) && !is_wp_error($terms)): ?>
+                                    <div class="mb-2">
+                                        <?php foreach ($terms as $term): ?>
+                                            <span class="badge bg-primary text-light me-1">
+                                                <?php echo esc_html($term->name); ?>
+                                            </span>
+                                        <?php endforeach; ?>
+                                    </div>
+                                <?php endif; ?>
 
-                                  <h4 class="title mb-2">
-                                      <a href="<?php the_permalink(); ?>" class="text-dark fw-semibold text-decoration-none">
-                                          <?php the_title(); ?>
-                                      </a>
-                                  </h4>
+                                <h4 class="title mb-2">
+                                    <a href="<?php the_permalink(); ?>" class="text-dark fw-semibold text-decoration-none">
+                                        <?php the_title(); ?>
+                                    </a>
+                                </h4>
 
-                                  <p class="flex-grow-1"><?php echo wp_trim_words(get_the_excerpt(), 20); ?></p>
-                              </div>
-                          </div>
-                      </div>
-              <?php
-                    endwhile;
-                    wp_reset_postdata();
-                else:
-                    echo '<div class="col-12 text-center"><p>Tidak ada event tersedia.</p></div>';
-                endif;
-                ?>
-          </div>
-      </div>
+                                <p class="flex-grow-1"><?php echo wp_trim_words(get_the_excerpt(), 20); ?></p>
+                            </div>
+                        </div>
+                    </div>
+            <?php
+                endwhile;
+                wp_reset_postdata();
+            else:
+                echo '<div class="col-12 text-center"><p>Tidak ada event tersedia.</p></div>';
+            endif;
+            ?>
+        </div>
+    </div>
+</div>
 
-
-  </div>
 
   <!-- End Latest News Area -->
 

@@ -2375,3 +2375,8 @@ only screen and (min-width: 1400px) {
   transform: scale(1.05);
   color: #fff;
 }
+
+
+.nav-tabs {
+    min-width: 8rem;
+}

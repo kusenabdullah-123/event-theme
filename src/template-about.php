@@ -30,7 +30,7 @@ get_header();
             <div class="col-lg-6 col-12">
                 <div class="about-five-content">
                     <h6 class="small-title text-uppercase text-primary fw-semibold mb-2">Tentang Kami</h6>
-                    <h2 class="main-title fw-bold mb-4">Kami Hadir dengan Pengalaman & Pengetahuan</h2>
+                    <h2 class="main-title fw-bold mb-4">Kami Hadir dengan Dedikasi untuk Mengembangkan Potensi Generasi Berprestasi</h2>
                     <p>
                         Obor Langit adalah Event Organizer yang bergerak di bidang akademik, khususnya penyelenggaraan Olimpiade Akademik Nasional. Kami hadir sebagai wadah pengembangan potensi pelajar Indonesia melalui ajang kompetisi yang edukatif, inspiratif, dan membangun semangat berprestasi di bidang ilmu pengetahuan.
                     </p>
