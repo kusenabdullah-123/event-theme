@@ -43,7 +43,7 @@
                                   style="background: rgba(255, 255, 255, 1); width: 45px; height: 45px; display:flex; align-items:center; justify-content:center;">
                                   <i class="lni lni-play fs-5"></i>
                               </span>
-                              <span class="text fw-semibold">Watch Intro</span>
+                              <span class="text fw-semibold">Watch Video</span>
                           </a>
                       </div>
                   </div>
@@ -136,6 +136,10 @@
           }
 
           .btn-header {
+              color: #004aad;
+          }
+
+          .btn-header:hover {
               color: #004aad;
           }
 
