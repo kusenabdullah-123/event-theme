@@ -8,9 +8,7 @@
                     <div class="content text-center">
                         <h6>Galeri</h6>
                         <h2 class="fw-bold">Dokumentasi Kegiatan & Event</h2>
-                        <p>
-                            Kumpulan momen terbaik dari berbagai acara dan kegiatan kami.
-                        </p>
+                        <p>Kumpulan momen terbaik dari berbagai acara dan kegiatan kami.</p>
                     </div>
                 </div>
             </div>
@@ -19,39 +17,46 @@
 
     <div class="container">
         <div class="row g-4">
-            <?php 
-            if (have_posts()) : 
-                $delay = 0; // Delay untuk animasi tiap card
-                while (have_posts()) : the_post(); 
-                    $delay += 150; // Tambah delay 150ms agar animasi berurutan
-            ?>
-                    <div class="col-lg-4 col-md-6 col-12" 
-                         data-aos="fade-up" 
-                         data-aos-delay="<?php echo $delay; ?>" 
+            <?php if (have_posts()) : ?>
+                <?php $delay = 0; ?>
+
+                <?php while (have_posts()) : the_post(); ?>
+                    <?php $delay += 150; ?>
+                    <div class="col-lg-4 col-md-6 col-12"
+                         data-aos="fade-up"
+                         data-aos-delay="<?php echo esc_attr($delay); ?>"
                          data-aos-duration="1000">
-                        <a href="<?php the_permalink(); ?>" class="text-decoration-none w-full">
+
+                        <a href="<?php echo esc_url(get_permalink()); ?>" class="text-decoration-none w-full">
                             <div class="gallery-card">
+                                <!-- Gambar -->
                                 <?php if (has_post_thumbnail()) : ?>
-                                    <?php the_post_thumbnail('medium_large', ['class' => 'img-fluid', 'alt' => get_the_title()]); ?>
+                                    <?php the_post_thumbnail('medium_large', [
+                                        'class' => 'img-fluid',
+                                        'alt'   => esc_attr(get_the_title())
+                                    ]); ?>
                                 <?php else : ?>
-                                    <img src="https://via.placeholder.com/600x400?text=No+Image" alt="<?php the_title(); ?>">
+                                    <img src="<?php echo esc_url('https://via.placeholder.com/600x400?text=No+Image'); ?>"
+                                         alt="<?php echo esc_attr(get_the_title()); ?>"
+                                         class="img-fluid">
                                 <?php endif; ?>
 
+                                <!-- Informasi Galeri -->
                                 <div class="gallery-info">
-                                    <div class="gallery-title"><?php the_title(); ?></div>
+                                    <div class="gallery-title"><?php echo esc_html(get_the_title()); ?></div>
                                     <div class="gallery-desc">
-                                        <?php echo wp_trim_words(get_the_excerpt(), 20); ?>
+                                        <?php echo esc_html(wp_trim_words(get_the_excerpt(), 20)); ?>
                                     </div>
                                     <div class="gallery-date">
-                                        <?php echo get_the_date('j F Y'); ?>
+                                        <?php echo esc_html(get_the_date('j F Y')); ?>
                                     </div>
                                 </div>
                             </div>
                         </a>
                     </div>
-                <?php 
-                endwhile;
-            else : ?>
+                <?php endwhile; ?>
+
+            <?php else : ?>
                 <div class="col-12 text-center" data-aos="fade-up">
                     <p>Belum ada galeri yang tersedia.</p>
                 </div>
