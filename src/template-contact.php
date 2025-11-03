@@ -20,7 +20,7 @@ get_header();
                                 </div>
                                 <div class="contact-content">
                                     <h4>Kontak</h4>
-                                    <p>0984537278623</p>
+                                    <p>08113186699</p>
                                     <p>oborlangit@gmail.com</p>
                                 </div>
                             </div>
@@ -63,19 +63,21 @@ get_header();
                         </div>
                     </div>
 
-                    <form action="#" method="post" class="contact-form">
+                    <form action="" method="post" class="contact-form">
+                        <input type="hidden" name="contact_form" value="1">
+
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <input type="text" name="name" id="name" placeholder="Nama" required class="form-control" />
+                                <input type="text" name="name" placeholder="Nama" required class="form-control" />
                             </div>
                             <div class="col-md-6 mb-3">
-                                <input type="text" name="phone" id="phone" placeholder="Nomor Telepon" required class="form-control" />
+                                <input type="text" name="phone" placeholder="Nomor Telepon" required class="form-control" />
                             </div>
                         </div>
 
                         <div class="row mb-3">
                             <div class="col-12">
-                                <textarea name="message" id="message" placeholder="Pesan Anda..." rows="5" class="form-control"></textarea>
+                                <textarea name="message" placeholder="Pesan Anda..." rows="5" class="form-control"></textarea>
                             </div>
                         </div>
 
@@ -87,6 +89,17 @@ get_header();
                             </div>
                         </div>
                     </form>
+
+                    <?php
+                    // Tampilkan notifikasi jika ada
+                    session_start();
+                    if (!empty($_SESSION['contact_status'])) {
+                        $s = $_SESSION['contact_status'];
+                        echo '<div class="alert alert-' . esc_attr($s['status']) . '">' . esc_html($s['msg']) . '</div>';
+                        unset($_SESSION['contact_status']);
+                    }
+                    ?>
+
                 </div>
             </div>
             <!-- /Form Kontak -->
@@ -98,6 +111,7 @@ get_header();
     .contact-section {
         min-height: 45rem;
     }
+
     .contact-item {
         display: flex;
         align-items: flex-start;
@@ -132,9 +146,6 @@ get_header();
     .primary-btn:hover {
         background-color: #0056b3;
     }
-
-
-
 </style>
 
 <?php get_footer(); ?>

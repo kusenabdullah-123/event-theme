@@ -13,6 +13,8 @@ $theme_inc_files = [
     '/inc/RegisterPostTypeEvent.php',
     '/inc/RegisterPostTypeGallery.php',
     '/inc/RegisterPostTypePenilaian.php',
+    '/contact/contact-form-handler.php',
+    '/contact/contact-admin-page.php'
 ];
 
 foreach ($theme_inc_files as $file) {

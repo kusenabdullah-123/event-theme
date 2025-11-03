@@ -492,6 +492,7 @@
               </div>
 
               <!-- Form -->
+              <!-- Form Kontak -->
               <div class="col-xl-8" data-aos="fade-left" data-aos-duration="1200">
                   <div class="contact-form-wrapper">
                       <div class="row">
@@ -502,32 +503,67 @@
                           </div>
                       </div>
 
-                      <form action="#" class="contact-form" data-aos="fade-up" data-aos-delay="400">
+                      <form action="" method="post" class="contact-form" data-aos="fade-up" data-aos-delay="400">
+                          <!-- Hidden field untuk identifikasi form -->
+                          <input type="hidden" name="contact_form" value="1">
+
                           <div class="row">
-                              <div class="col-md-6">
-                                  <input type="text" name="name" id="name" placeholder="Name" required />
+                              <div class="col-md-6 mb-3">
+                                  <input
+                                      type="text"
+                                      name="name"
+                                      id="name"
+                                      placeholder="Nama"
+                                      required
+                                      class="form-control" />
                               </div>
-                              <div class="col-md-6">
-                                  <input type="text" name="phone" id="phone" placeholder="Phone" required />
+                              <div class="col-md-6 mb-3">
+                                  <input
+                                      type="text"
+                                      name="phone"
+                                      id="phone"
+                                      placeholder="Nomor Telepon"
+                                      required
+                                      class="form-control" />
                               </div>
                           </div>
-                          <div class="row">
+
+                          <div class="row mb-3">
                               <div class="col-12">
-                                  <textarea name="message" id="message" placeholder="Type Message" rows="5"></textarea>
+                                  <textarea
+                                      name="message"
+                                      id="message"
+                                      placeholder="Pesan Anda..."
+                                      rows="5"
+                                      class="form-control"></textarea>
                               </div>
                           </div>
+
                           <div class="row">
                               <div class="col-12">
                                   <div class="button text-center rounded-buttons">
                                       <button type="submit" class="btn primary-btn rounded-full">
-                                          Send Message
+                                          Kirim Pesan
                                       </button>
                                   </div>
                               </div>
                           </div>
                       </form>
+
+                      <?php
+                        // Tampilkan notifikasi sukses/gagal dari session
+                        session_start();
+                        if (!empty($_SESSION['contact_status'])) {
+                            $s = $_SESSION['contact_status'];
+                            $alert_class = ($s['status'] === 'success') ? 'alert-success' : 'alert-danger';
+                            echo '<div class="alert ' . esc_attr($alert_class) . ' text-center mt-3">' . esc_html($s['msg']) . '</div>';
+                            unset($_SESSION['contact_status']);
+                        }
+                        ?>
                   </div>
               </div>
+              <!-- /Form Kontak -->
+
           </div>
       </div>
   </section>

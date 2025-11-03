@@ -15,7 +15,7 @@
                   <p>
                       📍 Perum Puri Gading Mas Permai, Blok I No.16, Dusun Krajan, Dadapan, Kec. Kabat, Kabupaten Banyuwangi, Jawa Timur 68462<br>
                       ✉️ oborlangit@gmail.com<br>
-                      📞 +62 21 1234 5678
+                      📞 +62 81 1318 6699
                   </p>
                   <div class="social-icons">
                       <a href="#" class="whatsapp" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
