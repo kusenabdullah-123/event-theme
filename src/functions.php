@@ -17,6 +17,14 @@ function event_theme_scripts()
     array(), // dependencies
     '6.6.0' // versi
   );
+  // CSS
+  wp_enqueue_style(
+    'aos', // handle
+    'https://unpkg.com/aos@2.3.1/dist/aos.css', // src
+    array(), // dependencies
+    '2.3.0' // versi
+  );
+
   wp_enqueue_style('bootstrap', get_template_directory_uri() . '/assets/css/bootstrap.min.css');
   wp_enqueue_style('lineicons', get_template_directory_uri() . '/assets/css/lineicons.css');
   wp_enqueue_style('tiny-slider', get_template_directory_uri() . '/assets/css/tiny-slider.css');
@@ -24,10 +32,17 @@ function event_theme_scripts()
   wp_enqueue_style('main-style', get_template_directory_uri() . '/style.css');
 
   // JS
+  wp_enqueue_script(
+    'aos-js',
+    'https://unpkg.com/aos@2.3.1/dist/aos.js',
+    array(), // dependencies
+    '2.3.1', // versi
+    true     // load di footer
+  );
   wp_enqueue_script('bootstrap', get_template_directory_uri() . '/assets/js/bootstrap.bundle.min.js', array('jquery'), null, true);
   wp_enqueue_script('glightbox', get_template_directory_uri() . '/assets/js/glightbox.min.js', array(), null, true);
   wp_enqueue_script('tiny-slider', get_template_directory_uri() . '/assets/js/tiny-slider.js', array(), null, true);
-  wp_enqueue_script('main', get_template_directory_uri() . '/assets/js/main.js', array('jquery'), null, true);
+  wp_enqueue_script('main', get_template_directory_uri() . '/assets/js/main.js', array('jquery','aos-js'), null, true);
 }
 add_action('wp_enqueue_scripts', 'event_theme_scripts');
 
@@ -44,51 +59,51 @@ function event_theme_setup()
 add_action('after_setup_theme', 'event_theme_setup');
 
 
-add_filter('wp_handle_upload_prefilter', function($file) {
-    $ext = pathinfo($file['name'], PATHINFO_EXTENSION);
-    $datetime = date('Ymd_His'); // Format: 20251030_204500
-    $file['name'] = $datetime . '.' . $ext;
-    return $file;
+add_filter('wp_handle_upload_prefilter', function ($file) {
+  $ext = pathinfo($file['name'], PATHINFO_EXTENSION);
+  $datetime = date('Ymd_His'); // Format: 20251030_204500
+  $file['name'] = $datetime . '.' . $ext;
+  return $file;
 });
 
 // ===================================================
 // 🔹 GANTI FOLDER UPLOAD BERDASARKAN POST TYPE
 // ===================================================
-add_filter('upload_dir', function($upload) {
-    $post_type = null;
+add_filter('upload_dir', function ($upload) {
+  $post_type = null;
 
-    if (isset($_REQUEST['post_id'])) {
-        $post_type = get_post_type($_REQUEST['post_id']);
-    }
+  if (isset($_REQUEST['post_id'])) {
+    $post_type = get_post_type($_REQUEST['post_id']);
+  }
 
-    $time = current_time('mysql');
-    $y = date('Y', strtotime($time));
-    $m = date('m', strtotime($time));
-    $d = date('d', strtotime($time));
+  $time = current_time('mysql');
+  $y = date('Y', strtotime($time));
+  $m = date('m', strtotime($time));
+  $d = date('d', strtotime($time));
 
-    // === EVENT ===
-    if ($post_type === 'event') {
-        $upload['subdir'] = "/event/$y/$m/$d";
-    }
+  // === EVENT ===
+  if ($post_type === 'event') {
+    $upload['subdir'] = "/event/$y/$m/$d";
+  }
 
-    // === GALLERY ===
-    elseif ($post_type === 'gallery') {
-        $upload['subdir'] = "/gallery/$y/$m/$d";
-    }
+  // === GALLERY ===
+  elseif ($post_type === 'gallery') {
+    $upload['subdir'] = "/gallery/$y/$m/$d";
+  }
 
-    // === PENILAIAN (PDF SAJA) ===
-    elseif ($post_type === 'penilaian') {
-        $upload['subdir'] = "/penilaian/pdf/$y/$m/$d";
-    }
+  // === PENILAIAN (PDF SAJA) ===
+  elseif ($post_type === 'penilaian') {
+    $upload['subdir'] = "/penilaian/pdf/$y/$m/$d";
+  }
 
-    // === LAINNYA (default WP) ===
-    else {
-        return $upload;
-    }
-
-    // Update path dan URL upload
-    $upload['path'] = $upload['basedir'] . $upload['subdir'];
-    $upload['url']  = $upload['baseurl'] . $upload['subdir'];
-
+  // === LAINNYA (default WP) ===
+  else {
     return $upload;
+  }
+
+  // Update path dan URL upload
+  $upload['path'] = $upload['basedir'] . $upload['subdir'];
+  $upload['url']  = $upload['baseurl'] . $upload['subdir'];
+
+  return $upload;
 });

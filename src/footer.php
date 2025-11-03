@@ -32,15 +32,28 @@
       </footer>
   </footer>
 
-<!-- Tombol WhatsApp di pojok bawah -->
-<a href="https://wa.me/628113186699" 
-   class="whatsapp-btn btn-hover" 
-   target="_blank" 
-   rel="noopener noreferrer">
-  <i class="lni lni-whatsapp"></i>
-</a>
+  <!-- Tombol WhatsApp di pojok bawah -->
+  <a href="https://wa.me/628113186699"
+      class="whatsapp-btn btn-hover"
+      target="_blank"
+      rel="noopener noreferrer">
+      <i class="lni lni-whatsapp"></i>
+  </a>
 
   <?php wp_footer(); ?>
+
+  <script>
+      document.addEventListener("DOMContentLoaded", function() {
+          if (typeof AOS !== 'undefined') {
+              AOS.init({
+                  once: true,
+                  duration: 800,
+                  easing: 'ease-out-cubic'
+              });
+          }
+      });
+  </script>
+
   </body>
 
   </html>

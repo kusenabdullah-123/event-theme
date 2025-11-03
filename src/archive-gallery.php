@@ -4,7 +4,7 @@
     <div class="section-title-five">
         <div class="container">
             <div class="row">
-                <div class="col-12">
+                <div class="col-12" data-aos="fade-up" data-aos-duration="1000">
                     <div class="content text-center">
                         <h6>Galeri</h6>
                         <h2 class="fw-bold">Dokumentasi Kegiatan & Event</h2>
@@ -19,9 +19,17 @@
 
     <div class="container">
         <div class="row g-4">
-            <?php if (have_posts()) : while (have_posts()) : the_post(); ?>
-                    <div class="col-lg-4 col-md-6 col-12">
-                        <a href="<?php the_permalink(); ?>" class="text-decoration-none class w-full">
+            <?php 
+            if (have_posts()) : 
+                $delay = 0; // Delay untuk animasi tiap card
+                while (have_posts()) : the_post(); 
+                    $delay += 150; // Tambah delay 150ms agar animasi berurutan
+            ?>
+                    <div class="col-lg-4 col-md-6 col-12" 
+                         data-aos="fade-up" 
+                         data-aos-delay="<?php echo $delay; ?>" 
+                         data-aos-duration="1000">
+                        <a href="<?php the_permalink(); ?>" class="text-decoration-none w-full">
                             <div class="gallery-card">
                                 <?php if (has_post_thumbnail()) : ?>
                                     <?php the_post_thumbnail('medium_large', ['class' => 'img-fluid', 'alt' => get_the_title()]); ?>
@@ -41,9 +49,10 @@
                             </div>
                         </a>
                     </div>
-                <?php endwhile;
+                <?php 
+                endwhile;
             else : ?>
-                <div class="col-12 text-center">
+                <div class="col-12 text-center" data-aos="fade-up">
                     <p>Belum ada galeri yang tersedia.</p>
                 </div>
             <?php endif; ?>
@@ -63,6 +72,8 @@
             overflow: hidden;
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            height: 100%;
+            background: #fff;
         }
 
         .gallery-card:hover {
@@ -99,6 +110,7 @@
             color: #999;
             font-style: italic;
         }
+
         .w-full {
             width: 100%;
         }

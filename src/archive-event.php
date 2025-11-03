@@ -4,7 +4,7 @@
     <div class="section-title-five">
         <div class="container">
             <div class="row">
-                <div class="col-12">
+                <div class="col-12" data-aos="fade-up" data-aos-duration="1000">
                     <div class="content text-center">
                         <h6>Event</h6>
                         <h2 class="fw-bold">Latest Event & Upcoming</h2>
@@ -28,20 +28,27 @@
             $query = new WP_Query($args);
 
             if ($query->have_posts()):
+                $delay = 0; // delay animasi tiap card
                 while ($query->have_posts()): $query->the_post();
 
                     // Ambil kategori dari taxonomy 'event_kategori'
                     $terms = get_the_terms(get_the_ID(), 'event_kategori');
                     $kategori = $terms && !is_wp_error($terms) ? $terms[0]->name : '';
+                    $delay += 100; // tambah delay agar animasi berurutan
             ?>
-                    <div class="col-lg-3 col-md-6 col-12 mb-4">
+                    <div class="col-lg-3 col-md-6 col-12 mb-4" 
+                         data-aos="fade-up" 
+                         data-aos-delay="<?php echo $delay; ?>" 
+                         data-aos-duration="1000">
+
                         <div class="single-news h-100 d-flex flex-column shadow-lg rounded overflow-hidden">
                             <div class="image d-flex flex-row justify-content-center position-relative">
                                 <a href="<?php the_permalink(); ?>">
                                     <?php if (has_post_thumbnail()): ?>
                                         <?php the_post_thumbnail('medium', ['class' => 'thumb w-100']); ?>
                                     <?php else: ?>
-                                        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/no-image.jpg" alt="<?php the_title(); ?>" class="thumb w-100">
+                                        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/no-image.jpg" 
+                                             alt="<?php the_title(); ?>" class="thumb w-100">
                                     <?php endif; ?>
                                 </a>
                             </div>
@@ -63,7 +70,9 @@
                                     </a>
                                 </h4>
 
-                                <p class="flex-grow-1"><?php echo wp_trim_words(get_the_excerpt(), 20); ?></p>
+                                <p class="flex-grow-1">
+                                    <?php echo wp_trim_words(get_the_excerpt(), 20); ?>
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -71,7 +80,7 @@
                 endwhile;
                 wp_reset_postdata();
             else:
-                echo '<div class="col-12 text-center"><p>Tidak ada event tersedia.</p></div>';
+                echo '<div class="col-12 text-center" data-aos="fade-up"><p>Tidak ada event tersedia.</p></div>';
             endif;
             ?>
         </div>
