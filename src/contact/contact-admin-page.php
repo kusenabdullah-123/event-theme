@@ -1,5 +1,5 @@
 <?php
-// ===== Halaman Setting Form Kontak & SMTP =====
+// ===== Halaman Setting Form Kontak & SMTP (Production) =====
 
 add_action('admin_menu', function() {
     add_menu_page(
@@ -14,7 +14,6 @@ add_action('admin_menu', function() {
 });
 
 function render_contact_settings_page() {
-    // Simpan data jika form disubmit
     if (isset($_POST['contact_settings_nonce']) && wp_verify_nonce($_POST['contact_settings_nonce'], 'save_contact_settings')) {
         update_option('contact_to_email', sanitize_email($_POST['contact_to_email']));
         update_option('contact_subject', sanitize_text_field($_POST['contact_subject']));
@@ -24,20 +23,17 @@ function render_contact_settings_page() {
         update_option('smtp_password', sanitize_text_field($_POST['smtp_password']));
         update_option('smtp_secure', sanitize_text_field($_POST['smtp_secure']));
         update_option('smtp_from_name', sanitize_text_field($_POST['smtp_from_name']));
-
-        echo '<div class="updated"><p><strong>Settings saved.</strong></p></div>';
+        echo '<div class="updated"><p><strong>Pengaturan berhasil disimpan.</strong></p></div>';
     }
 
-    // Ambil nilai saat ini
     $to_email = get_option('contact_to_email', get_option('admin_email'));
     $subject  = get_option('contact_subject', 'Pesan Baru dari Form Kontak');
     $smtp_host = get_option('smtp_host', '');
-    $smtp_port = get_option('smtp_port', 587);
+    $smtp_port = get_option('smtp_port', 465);
     $smtp_username = get_option('smtp_username', '');
     $smtp_password = get_option('smtp_password', '');
-    $smtp_secure = get_option('smtp_secure', 'tls');
+    $smtp_secure = get_option('smtp_secure', 'ssl');
     $smtp_from_name = get_option('smtp_from_name', get_bloginfo('name'));
-
     ?>
     <div class="wrap">
         <h1>Contact & SMTP Settings</h1>
@@ -47,11 +43,11 @@ function render_contact_settings_page() {
             <h2>📨 Email Tujuan</h2>
             <table class="form-table">
                 <tr>
-                    <th scope="row"><label for="contact_to_email">Email Tujuan</label></th>
+                    <th><label for="contact_to_email">Email Tujuan</label></th>
                     <td><input type="email" name="contact_to_email" value="<?php echo esc_attr($to_email); ?>" class="regular-text" required></td>
                 </tr>
                 <tr>
-                    <th scope="row"><label for="contact_subject">Subjek Default</label></th>
+                    <th><label for="contact_subject">Subjek Default</label></th>
                     <td><input type="text" name="contact_subject" value="<?php echo esc_attr($subject); ?>" class="regular-text"></td>
                 </tr>
             </table>
@@ -98,19 +94,30 @@ function render_contact_settings_page() {
     <?php
 }
 
-// ===== Konfigurasi SMTP agar wp_mail() pakai setting di atas =====
+// ===== Konfigurasi SMTP untuk wp_mail() (production) =====
 add_action('phpmailer_init', function($phpmailer) {
-    $host = get_option('smtp_host');
-    if (!$host) return; // skip jika belum diisi
+    $host      = get_option('smtp_host');
+    $port      = (int) get_option('smtp_port', 465);
+    $user      = get_option('smtp_username');
+    $pass      = get_option('smtp_password');
+    $secure    = get_option('smtp_secure', 'ssl');
+    $from_name = get_option('smtp_from_name', get_bloginfo('name'));
+
+    if (empty($host) || empty($user)) return;
 
     $phpmailer->isSMTP();
-    $phpmailer->Host = $host;
-    $phpmailer->Port = get_option('smtp_port', 587);
-    $phpmailer->SMTPAuth = true;
-    $phpmailer->Username = get_option('smtp_username');
-    $phpmailer->Password = get_option('smtp_password');
-    $phpmailer->SMTPSecure = get_option('smtp_secure', 'tls');
+    $phpmailer->Host        = $host;
+    $phpmailer->Port        = $port;
+    $phpmailer->SMTPAuth    = true;
+    $phpmailer->Username    = $user;
+    $phpmailer->Password    = $pass;
+    $phpmailer->SMTPSecure  = ($secure === 'none' ? '' : $secure);
+    $phpmailer->SMTPAutoTLS = false;
 
-    $phpmailer->FromName = get_option('smtp_from_name', get_bloginfo('name'));
-    $phpmailer->From = get_option('contact_to_email', get_option('admin_email'));
+    $phpmailer->From        = $user;
+    $phpmailer->FromName    = $from_name;
+    $phpmailer->Sender      = $user;
+    $phpmailer->Hostname    = $_SERVER['SERVER_NAME'] ?? 'localhost';
 });
+
+add_filter('wp_mail_content_type', fn() => 'text/html; charset=UTF-8');

@@ -1,46 +1,39 @@
 <?php
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['contact_form'])) {
+if (!defined('ABSPATH')) exit;
+if (session_status() !== PHP_SESSION_ACTIVE) session_start();
 
-    // Load setting
-    $settings = include __DIR__ . '/contact-settings.php';
+add_action('wp_loaded', function() {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['contact_form'])) {
+        $settings = include get_template_directory() . '/contact/contact-settings.php';
 
-    // Sanitasi input
-    $name    = sanitize_text_field($_POST['name']);
-    $phone   = sanitize_text_field($_POST['phone']);
-    $message = sanitize_textarea_field($_POST['message']);
+        $name    = sanitize_text_field($_POST['name'] ?? '');
+        $phone   = sanitize_text_field($_POST['phone'] ?? '');
+        $message = sanitize_textarea_field($_POST['message'] ?? '');
 
-    // Validasi sederhana
-    if (!empty($name) && !empty($phone) && !empty($message)) {
+        if ($name && $phone && $message) {
+            $to       = $settings['to_email'];
+            $subject  = $settings['subject'];
+            $headers  = ['Content-Type: text/html; charset=UTF-8'];
 
-        $to      = $settings['to_email'];
-        $subject = $settings['subject'];
-        $headers = ['Content-Type: text/html; charset=UTF-8'];
+            $body = "
+                <h3>Pesan Baru dari Website</h3>
+                <p><strong>Nama:</strong> {$name}</p>
+                <p><strong>Nomor Telepon:</strong> {$phone}</p>
+                <p><strong>Pesan:</strong><br>{$message}</p>
+                <hr>
+                <p>Email ini dikirim otomatis dari <a href='" . esc_url(home_url()) . "'>" . get_bloginfo('name') . "</a></p>
+            ";
 
-        $body = "
-            <h3>Pesan Baru dari Website</h3>
-            <p><strong>Nama:</strong> {$name}</p>
-            <p><strong>Nomor Telepon:</strong> {$phone}</p>
-            <p><strong>Pesan:</strong><br>{$message}</p>
-        ";
+            $sent = wp_mail($to, $subject, $body, $headers);
 
-        // Kirim email
-        if (wp_mail($to, $subject, $body, $headers)) {
-            $status = 'success';
-            $msg = $settings['success'];
+            $_SESSION['contact_status'] = $sent
+                ? ['status' => 'success', 'msg' => $settings['success']]
+                : ['status' => 'error',   'msg' => $settings['error']];
         } else {
-            $status = 'error';
-            $msg = $settings['error'];
+            $_SESSION['contact_status'] = ['status' => 'error', 'msg' => 'Mohon isi semua kolom.'];
         }
-    } else {
-        $status = 'error';
-        $msg = 'Mohon isi semua kolom.';
+
+        wp_safe_redirect($_SERVER['HTTP_REFERER']);
+        exit;
     }
-
-    // Simpan status ke session (agar bisa tampil setelah reload)
-    session_start();
-    $_SESSION['contact_status'] = compact('status', 'msg');
-
-    // Redirect ke halaman yang sama
-    wp_redirect($_SERVER['HTTP_REFERER']);
-    exit;
-}
+});
